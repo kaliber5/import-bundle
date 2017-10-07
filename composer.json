@@ -1,0 +1,27 @@
+{
+    "name": "kaliber5/import-bundle",
+    "description": "add classes to simplify data imports",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Andreas Schacht",
+            "email": "schacht@kaliber5.de"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://composer.kaliber5.de"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "symfony/symfony": "^3.3",
+        "kaliber5/logger-bundle": "dev-autoconfig as 2.2.1",
+        "sonata-project/media-bundle": "^3.0",
+        "webmozart/assert": "^1.0"
+    },
+    "autoload": {
+        "psr-4": { "Kaliber5\\ImportBundle\\": "" }
+    }
+}
