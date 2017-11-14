@@ -34,7 +34,7 @@ class MailExceptionHandler extends AbstractExceptionHandler implements Exception
     protected $from;
 
     /**
-     * @var string
+     * @var string|array
      */
     protected $to;
 
@@ -50,7 +50,7 @@ class MailExceptionHandler extends AbstractExceptionHandler implements Exception
      * @param EngineInterface $twig
      * @param string          $subject
      * @param string          $from
-     * @param string          $to
+     * @param string|array    $to
      * @param string          $template
      */
     public function __construct(\Swift_Mailer $mailer, EngineInterface $twig, $subject, $from, $to, $template)
@@ -85,8 +85,8 @@ class MailExceptionHandler extends AbstractExceptionHandler implements Exception
                 );
             /** @noinspection PhpParamsInspection */
             $this->mailer->send($message);
-            $this->logInfo('Mail send to '.$this->to);
-                ;
+            $to = is_array($this->to) ? print_r($this->to, true) : $this->to;
+            $this->logInfo('Mail send to '.$to);
         } catch (\Exception $e) {
             $this->logError('Cannot send email', $e);
         }
