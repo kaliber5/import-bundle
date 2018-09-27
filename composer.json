@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": "^7.1",
-        "symfony/symfony": "^3.3",
+        "symfony/symfony": "^3.3 || ^4.0",
         "kaliber5/logger-bundle": "^2.0 || ^3.0",
         "sonata-project/media-bundle": "^3.0",
         "webmozart/assert": "^1.0"
