@@ -16,8 +16,11 @@
     ],
     "require": {
         "php": "^7.1",
-        "symfony/symfony": "^3.3 || ^4.0",
-        "kaliber5/logger-bundle": "^2.0 || ^3.0",
+        "symfony/http-foundation": "^4.0",
+        "symfony/templating": "^4.0",
+        "symfony/translation": "^4.0",
+        "symfony/validator": "^4.0",
+        "kaliber5/logger-bundle": "dev-flex",
         "sonata-project/media-bundle": "^3.0",
         "webmozart/assert": "^1.0"
     },
