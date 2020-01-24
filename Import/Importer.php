@@ -5,8 +5,10 @@ namespace Kaliber5\ImportBundle\Import;
 use Kaliber5\ImportBundle\Import\Exception\ExceptionHandlerInterface;
 use Kaliber5\ImportBundle\Import\Exception\ImportException;
 use Kaliber5\LoggerBundle\LoggingTrait\LoggingTrait;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Webmozart\Assert\Assert;
+use InvalidArgumentException;
 
 /**
  * Class Importer
@@ -87,12 +89,10 @@ class Importer implements ImporterInterface
                 $destinationObject = null;
                 $errors = null;
                 try {
-                    $errors = $this->validateObject($sourceObject);
-                    Assert::eq(count($errors), 0, 'Validierungsfehler im importierten Objekt');
+                    $this->assertValidObject($sourceObject, 'Validierungsfehler im importierten Objekt');
                     $destinationObject = $this->getDestinationObject($sourceObject);
                     $this->mapObjects($sourceObject, $destinationObject);
-                    $errors = $this->validateObject($destinationObject);
-                    Assert::eq(count($errors), 0, 'Validierungsfehler im abgebildeten Objekt');
+                    $this->assertValidObject($destinationObject, 'Validierungsfehler im abgebildeten Objekt');
                     $this->addImportedObject($destinationObject);
                 } catch (ImportException $ie) {
                     $this->addException($ie);
@@ -231,5 +231,21 @@ class Importer implements ImporterInterface
     protected function validateObject($object)
     {
         return $this->validator->validate($object);
+    }
+
+    /**
+     * @param $object
+     *
+     * @throws InvalidArgumentException
+     */
+    protected function assertValidObject($object, $message = 'Validierungsfehler') {
+        $errors = $this->validateObject($object);
+        if (count($errors) > 0) {
+            $msgs = [$msg . ': ' . $object];
+            foreach ($errors as $error) {
+                $msgs[] = $error;
+            }
+            throw new InvalidArgumentException(join("\n", $msgs));
+        }
     }
 }
