@@ -241,7 +241,12 @@ class Importer implements ImporterInterface
     protected function assertValidObject($object, $message = 'Validierungsfehler') {
         $errors = $this->validateObject($object);
         if (count($errors) > 0) {
-            $msgs = [$msg . ': ' . $object];
+            if (method_exists($object, '__toString')) {
+                $message .= ': ' . $object;
+            } else {
+                $message .= ': ' . get_class($object);
+            }
+            $msgs = [$message];
             foreach ($errors as $error) {
                 $msgs[] = $error;
             }
