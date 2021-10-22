@@ -2,11 +2,10 @@
 
 namespace Kaliber5\ImportBundle\Import;
 
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class DomainMappingTranslator
- *
  * Translate values from a given domain using the symfony translator
  *
  * @package AppBundle\Import

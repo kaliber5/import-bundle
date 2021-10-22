@@ -5,9 +5,7 @@ namespace Kaliber5\ImportBundle\Import;
 use Kaliber5\ImportBundle\Import\Exception\ExceptionHandlerInterface;
 use Kaliber5\ImportBundle\Import\Exception\ImportException;
 use Kaliber5\LoggerBundle\LoggingTrait\LoggingTrait;
-use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Webmozart\Assert\Assert;
 use InvalidArgumentException;
 
 /**
@@ -246,11 +244,9 @@ class Importer implements ImporterInterface
             } else {
                 $message .= ': ' . get_class($object);
             }
-            $msgs = [$message];
-            foreach ($errors as $error) {
-                $msgs[] = $error;
-            }
-            throw new InvalidArgumentException(join("\n", $msgs));
+            $message .= PHP_EOL.(string) $errors;
+
+            throw new InvalidArgumentException($message);
         }
     }
 }

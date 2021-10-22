@@ -2,7 +2,7 @@
 
 namespace Kaliber5\ImportBundle\Import;
 
-use JMS\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -20,7 +20,7 @@ class DeserializedImportObjectProvider implements ImportObjectsProviderInterface
     protected $importDataProvider;
 
     /**
-     * @var Serializer
+     * @var SerializerInterface
      */
     protected $serializer;
 
@@ -35,23 +35,31 @@ class DeserializedImportObjectProvider implements ImportObjectsProviderInterface
     protected $dataFormat;
 
     /**
+     * @var array
+     */
+    protected $context;
+
+    /**
      * DeserializedImportObjectProvider constructor.
      *
      * @param ImportDataProviderInterface $importDataProvider
-     * @param Serializer                  $serializer
+     * @param SerializerInterface         $serializer
      * @param string                      $dataType
      * @param string                      $dataFormat
+     * @param array                       $context
      */
     public function __construct(
         ImportDataProviderInterface $importDataProvider,
-        Serializer $serializer,
-        $dataType,
-        $dataFormat = 'xml'
+        SerializerInterface $serializer,
+        string $dataType,
+        string $dataFormat = 'xml',
+        array $context = []
     ) {
         $this->importDataProvider = $importDataProvider;
         $this->serializer = $serializer;
         $this->dataType = $dataType;
         $this->dataFormat = $dataFormat;
+        $this->context = $context;
     }
 
     /**
