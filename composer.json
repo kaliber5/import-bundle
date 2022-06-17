@@ -21,7 +21,7 @@
         "symfony/translation": "^4.0",
         "symfony/validator": "^4.0",
         "kaliber5/logger-bundle": "^4.0",
-        "sonata-project/media-bundle": "^3.0",
+        "sonata-project/media-bundle": "^4.0",
         "webmozart/assert": "^1.0"
     },
     "autoload": {
