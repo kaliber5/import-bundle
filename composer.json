@@ -20,7 +20,7 @@
         "symfony/templating": "^5.0",
         "symfony/translation": "^5.0",
         "symfony/validator": "^5.0",
-        "kaliber5/logger-bundle": "dev-sf5",
+        "kaliber5/logger-bundle": "^5.0",
         "webmozart/assert": "^1.0",
         "symfony/mailer": "^5.0",
         "symfony/serializer": "^5.0"
