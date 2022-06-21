@@ -2,6 +2,9 @@
 
 namespace Kaliber5\ImportBundle\Import\Exception;
 
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
@@ -14,7 +17,7 @@ use Symfony\Component\Templating\EngineInterface;
 class MailExceptionHandler extends AbstractExceptionHandler implements ExceptionHandlerInterface
 {
     /**
-     * @var \Swift_Mailer
+     * @var MailerInterface
      */
     protected $mailer;
 
@@ -46,14 +49,14 @@ class MailExceptionHandler extends AbstractExceptionHandler implements Exception
     /**
      * MailExceptionHandler constructor.
      *
-     * @param \Swift_Mailer   $mailer
+     * @param MailerInterface $mailer
      * @param EngineInterface $twig
      * @param string          $subject
      * @param string          $from
      * @param string|array    $to
      * @param string          $template
      */
-    public function __construct(\Swift_Mailer $mailer, EngineInterface $twig, $subject, $from, $to, $template)
+    public function __construct(MailerInterface $mailer, EngineInterface $twig, $subject, $from, $to, $template)
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
@@ -72,23 +75,21 @@ class MailExceptionHandler extends AbstractExceptionHandler implements Exception
             return;
         }
         try {
-            $message = \Swift_Message::newInstance()
-                ->setSubject($this->subject)
-                ->setFrom($this->from)
-                ->setTo($this->to)
-                ->setBody(
-                    $this->twig->render(
-                        $this->template,
-                        ['exceptions' => $this->exceptions]
-                    ),
-                    'text/plain'
-                );
-            /** @noinspection PhpParamsInspection */
-            $this->mailer->send($message);
-            $to = is_array($this->to) ? print_r($this->to, true) : $this->to;
+            $email = (new TemplatedEmail())
+                ->subject($this->subject)
+                ->from($this->from)
+                ->to($this->to)
+                ->textTemplate($this->template)
+                ->context(['exceptions' => $this->exceptions]);
+            $this->mailer->send($email);
+            $to = is_array($this->to) ? implode(', ', $this->to) : $this->to;
             $this->logInfo('Mail send to '.$to);
+        } catch (TransportExceptionInterface $te) {
+            $this->logDebug(sprintf('send mail debug infos: %s', $te->getDebug()));
+            $this->logError('Cannot send email', $te);
+
         } catch (\Exception $e) {
-            $this->logError('Cannot send email', $e);
+            $this->logError('Cannot send email, general error', $e);
         }
     }
 }

@@ -15,14 +15,15 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "symfony/http-foundation": "^4.0",
-        "symfony/templating": "^4.0",
-        "symfony/translation": "^4.0",
-        "symfony/validator": "^4.0",
-        "kaliber5/logger-bundle": "^4.0",
-        "sonata-project/media-bundle": "^3.0",
-        "webmozart/assert": "^1.0"
+        "php": "^7.4 || ^8.0",
+        "symfony/http-foundation": "^5.0",
+        "symfony/templating": "^5.0",
+        "symfony/translation": "^5.0",
+        "symfony/validator": "^5.0",
+        "kaliber5/logger-bundle": "dev-sf5",
+        "webmozart/assert": "^1.0",
+        "symfony/mailer": "^5.0",
+        "symfony/serializer": "^5.0"
     },
     "autoload": {
         "psr-4": { "Kaliber5\\ImportBundle\\": "" }
